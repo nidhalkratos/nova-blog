@@ -61,7 +61,7 @@ class Post extends TemplateResource
                 config('nova-blog.use_trix') === true ? Trix::make('Text content', 'text_content') : Markdown::make('Text content', 'text_content'),
             ])
             ->addLayout('Image section', 'image', [
-                Image::make('Image', 'image')->deletable(false)->creationRules('required'),
+                Image::make('Image', 'image')->disk(config('nova-blog.images_disk')) ->deletable(false)->creationRules('required'),
                 Text::make('Image caption', 'caption'),
                 Text::make('Alt (image alternate text)', 'alt')
             ])
@@ -183,7 +183,7 @@ class Post extends TemplateResource
             Heading::make('SEO'),
             Text::make('SEO Title', 'seo_title')->hideFromIndex(),
             Text::make('SEO Description', 'seo_description')->hideFromIndex(),
-            Image::make('SEO Image', 'seo_image')->hideFromIndex(),
+            Image::make('SEO Image', 'seo_image')->disk(config('nova-blog.images_disk')) ->hideFromIndex(),
         ];
     }
 
