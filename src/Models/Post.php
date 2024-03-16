@@ -3,6 +3,7 @@
 namespace OptimistDigital\NovaBlog\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use OptimistDigital\NovaBlog\NovaBlog;
 
 class Post extends Model
@@ -81,5 +82,15 @@ class Post extends Model
     public function isDraft()
     {
         return isset($this->preview_token) ? true : false;
+    }
+
+    public function getFeaturedImageUrlAttribute()
+    {
+        return !!$this->featured_image ? Storage::disk(config('nova-blog.images_disk'))->url($this->featured_image) : null;
+    }
+
+    public function getSeoImageUrlAttribute()
+    {
+        return !!$this->seo_image ? Storage::disk(config('nova-blog.images_disk'))->url($this->seo_image) : null;
     }
 }

@@ -14,11 +14,11 @@ if (!function_exists('nova_get_blog_structure')) {
             $post->post_content = nova_blog_map_content(json_decode($post->post_content));
 
             if ($post->seo_image) {
-                $post->seo_image = Storage::disk('public')->url($post->seo_image);
+                $post->seo_image = Storage::disk(config('nova-blog.images_disk'))->url($post->seo_image);
             }
 
             if ($post->featured_image) {
-                $post->featured_image = Storage::disk('public')->url($post->featured_image);
+                $post->featured_image = Storage::disk(config('nova-blog.images_disk'))->url($post->featured_image);
             }
 
             return $post;
@@ -47,7 +47,7 @@ if (!function_exists('nova_get_post_by_slug')) {
             $imagePath = storage_path('app/public/' . $post->seo_image);
             if (file_exists($imagePath)) {
                 $imageSize = getimagesize($imagePath);
-                $seo['image'] = Storage::disk('public')->url($post->seo_image);
+                $seo['image'] = Storage::disk(config('nova-blog.images_disk'))->url($post->seo_image);
                 $seo['image_width'] = $imageSize[0];
                 $seo['image_height'] = $imageSize[1];
             }
@@ -56,7 +56,7 @@ if (!function_exists('nova_get_post_by_slug')) {
         $featuredImagePath = null;
 
         if ($post->featured_image) {
-            $featuredImagePath = Storage::disk('public')->url($post->featured_image);
+            $featuredImagePath = Storage::disk(config('nova-blog.images_disk'))->url($post->featured_image);
         }
 
         return [
@@ -95,14 +95,14 @@ if (!function_exists('nova_get_post_by_id')) {
             $imagePath = storage_path('app/public/' . $post->seo_image);
             if (file_exists($imagePath)) {
                 $imageSize = getimagesize($imagePath);
-                $seo['image'] = Storage::disk('public')->url($post->seo_image);
+                $seo['image'] = Storage::disk(config('nova-blog.images_disk'))->url($post->seo_image);
                 $seo['image_width'] = $imageSize[0];
                 $seo['image_height'] = $imageSize[1];
             }
         }
 
         if ($post->featured_image) {
-            $featuredImagePath = Storage::disk('public')->url($post->featured_image);
+            $featuredImagePath = Storage::disk(config('nova-blog.images_disk'))->url($post->featured_image);
         }
         $featuredImagePath = '';
 
@@ -126,7 +126,7 @@ if (!function_exists('nova_blog_map_content')) {
         return collect($content)->map(function ($item) {
             if ($item->layout === 'image') {
                 $output = clone $item;
-                $output->attributes->image = Storage::disk('public')->url($item->attributes->image);
+                $output->attributes->image = Storage::disk(config('nova-blog.images_disk'))->url($item->attributes->image);
                 return $output;
             }
 

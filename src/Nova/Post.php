@@ -105,7 +105,7 @@ class Post extends TemplateResource
             })->asHtml()->exceptOnForms(),
             DateTime::make('Published at', 'published_at')->rules('required'),
             Textarea::make('Post introduction', 'post_introduction'),
-            config('nova-blog.include_featured_image') === true ? Image::make('Featured image', 'featured_image') : null,
+            config('nova-blog.include_featured_image') === true ? Image::make('Featured image', 'featured_image')->disk(config('nova-blog.images_disk')) : null,
             (config('nova-blog.hide_category_column_from_index') === true) ? $hideCategoryColumnInIndex : $showCategoryColumnInIndex,
 
             $postContent,

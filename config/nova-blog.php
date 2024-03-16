@@ -84,4 +84,6 @@ return [
 
     'navigation_title' => 'Blog',
 
+    'images_disk' => 'public'
+
 ];
