@@ -69,6 +69,10 @@ class Post extends TemplateResource
                 Textarea::make('Embed media code (twitter, iframe, etc.)', 'media_code'),
                 Text::make('Media caption', 'caption')
             ]);
+        $extraLayouts = config('nova-blog.extra_layouts');
+        foreach($extraLayouts as $extraLayout){
+            $postContent = $postContent->addLayout($extraLayout['label'], $extraLayout['name'], $extraLayout['fields']);
+        }
 
         if (config('nova-blog.include_froala_texteditor_option')) {
             $postContent->addLayout('Text section in Froala', 'text_froala', [
