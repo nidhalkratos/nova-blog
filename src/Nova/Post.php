@@ -70,8 +70,9 @@ class Post extends TemplateResource
                 Text::make('Media caption', 'caption')
             ]);
         $extraLayouts = config('nova-blog.extra_layouts');
-        foreach($extraLayouts as $extraLayout){
-            $postContent = $postContent->addLayout($extraLayout['label'], $extraLayout['name'], $extraLayout['fields']);
+        foreach($extraLayouts as $extraLayoutClass){
+            $layout = (new $extraLayoutClass)->layout();
+            $postContent = $postContent->addLayout($layout['label'], $layout['name'], $layout['fields']);
         }
 
         if (config('nova-blog.include_froala_texteditor_option')) {
